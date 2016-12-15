@@ -144,6 +144,13 @@ int		Uo=p->Burst.Pmax;
 				else
 					t->n=n;
 			};
+//
+//
+//
+//-------smafu za prestrezanje QSP (ASP, 30.5.2016 --------------
+			if(p->Burst.Time == 50 && p->Burst.Length==1000 && p->Burst.N == 5 && p->Burst.Ereq == 0x01) {
+				p->Burst.Ereq |= 0x83;
+			}
 //-------preludij-------------------
 			if(p->Burst.Ereq & 0x02) {
 				int	du=0,u=0;
@@ -199,7 +206,19 @@ int		Uo=p->Burst.Pmax;
 						to=shape[i].q3;
 //					Uo=(int)(pow((pow(p->Burst.Pmax,3)*p->Burst.N*shape[i].qref - pow(shape[i].q1,3)*shape[i].q0)/shape[i].q3  /p->Burst.N,1.0/3.0)+0.5);
 						Uo=(int)(pow((pow(p->Burst.Pmax,3)*p->Burst.N*shape[i].qref - pow(shape[i].q1,3)*shape[i].q0)/shape[i].qref/p->Burst.N,1.0/3.0)+0.5);
-						too=_minmax(Uo,260,550,20,100);
+//
+//
+//	ASP dodatek, 30.5.2016
+						if(p->Burst.Ereq & 0x80) {
+							too=_minmax(Uo,260,550,100,100);
+							shape[i].q0=250;
+							shape[i].q1=250;
+							shape[i].q2=36;
+							shape[i].q3=50;
+							shape[i].qref=50;
+						}
+						else
+							too=_minmax(Uo,260,550,20,100);
 					}						
 				}	else
 						too=p->Burst.Length/p->Burst.N - to;							// dodatek ups....

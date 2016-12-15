@@ -409,7 +409,6 @@ verzija 110, prva sprememba po uradni ...
 
 27.8.2015
 
-
 >v 1.11 Aug 28 2015, <C7060EC9>
 
 popravki:
@@ -445,3 +444,12 @@ dodatki za qsw
 >v 1.12 Sep 22 2015, <35801001>
 
 nobenih sprememb, samo simmer je dvignjen na 40us !
+
+>v 1.13 Jun 15 2016, <ECF65ED6>
+
+Spremembe zaradi izenacitve qsp v klasicnem rezimu. 
+izvedba:	-V SetPwmTab na zacetku identificira qsp z 50us, 1ms, 5 pulzov, Ereq=0x01. 
+			-Forsira shaping mode z dodatnim flagom ( 0x11), ki v nadaljevanju fiksira pulze na 50+100 us
+			-overrides cfg.ini parameter za q 250,230,36,50,50
+
+			
