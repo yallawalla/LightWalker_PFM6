@@ -452,4 +452,38 @@ izvedba:	-V SetPwmTab na zacetku identificira qsp z 50us, 1ms, 5 pulzov, Ereq=0x
 			-Forsira shaping mode z dodatnim flagom ( 0x11), ki v nadaljevanju fiksira pulze na 50+100 us
 			-overrides cfg.ini parameter za q 250,230,36,50,50
 
-			
+>21.12.2016
+
+sweeps:
+- v Burst objekt dodan števec strelov (Count)
+- v SetPwmTab identificira parametre za sweeps ( 50us, length 1ms, 2 pulzq, ereq=0x01) ingenerira 
+  variabilen razmik glede na števec pulzov od 300 do 600 us
+- števec inkrementira V funkciji Sweep, na detekcijo CAN mesiga iz energometra
+- v Sweep se amplituda drugega pulza modificira po linearni odvisnosti ksweeps*dt + nsweeps.
+- na robnih vrednostih razmika (00 in 600 us) se ignorira zahteva za dvojni pulz. vrednost iz
+  energ. je izmerjena energija prvega pulza, ki služi za referenco pri ekvalizaciji  ksweeps/nsweps.
+  
+>21.2.2017
+
+sweeps:
+- nova verzija, z možnostjo fiksnega razmaka
+- fix mode, ce je burst->length med 300 in 500, zaradi obejitve 8 bitov
+  CAN prenaša parameter kot 30-50
+- V sweep klicu iz ENM fix mode preskoci adaptacijo K, SetPwmTab pa spremembo razmaka glede na števec 
+  pulzov; sicer je algoritem brez sprememb
+- preverjanje kompatibilnosti z LW v samostojno proceduro (LW_SpecOps), problem sosledja SET in RESET CAN msg
+  se kompenzira z mirror vmesnim registrom vpletenih parametrov; mirr. shranjuje nespremenjene vrednosti in služi
+  za odlocanje, pfm->burst pa se spreminja...
+- odlocitve o režimu obratovanja postavljajo flage v Ereg registru; izkljucno na CAN parserju, direktnega 
+  filtriranja parametrov in odlocitev med delovanjem ni vec!
+- spr. luck pri usb loaderju !!!
+
+
+23.2.2017
+
+>v 1.14 Feb 24 2017, <5A51785E>
+
+sweeps update...
+
+  
+  

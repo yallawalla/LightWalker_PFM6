@@ -10,17 +10,19 @@ double	det(double *p, int x,int y, int n)
 	int		i,j,sign=1;
 	double 	D=0;
 
-	for(i=1,j=0;j<n;++j,i*= 2)
-	{
-		if(!(i & y))
+	if(p) {
+		for(i=1,j=0;j<n;++j,i*= 2)
 		{
-			if(x < n-1)
+			if(!(i & y))
 			{
-				D  +=  p[n*j+x]*det(p, x+1, y+i, n)*sign;
-				sign *= -1;
+				if(x < n-1)
+				{
+					D  +=  p[n*j+x]*det(p, x+1, y+i, n)*sign;
+					sign *= -1;
+				}
+				else
+					D=p[n*j+x];
 			}
-			else
-				D=p[n*j+x];
 		}
 	}
 	return(D);
@@ -126,11 +128,9 @@ void	add_sample_e(samples *p, double t, double f)
 double	*solve(samples *p)
 {
 	int		i,j;
-	double	*c,d;
-	d=det(p->tp,0,0,p->n);
+	double	*c,d=det(p->tp,0,0,p->n);
 	if(!d)
 		return(NULL);
-
 	c=malloc(p->n * p->n * sizeof(double));
 	for(i=0; i<p->n; ++i)
 	{

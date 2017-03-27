@@ -523,9 +523,9 @@ int	DecodeCom(char *c) {
 					n=strscan(++c,cc,',');
 					if(n) {
 						if(n>1)
-							*(char *)strtol(cc[0],NULL,16)=(char)strtol(cc[1],NULL,16);
+							*(char *)strtol(cc[0],NULL,0)=(char)strtol(cc[1],NULL,0);
 						else
-							printf(",%02X",*(unsigned char *)strtol(cc[0],NULL,16));
+							printf(",%02X",*(unsigned char *)strtol(cc[0],NULL,0));
 						break;
 					}
 					return _PARSE_ERR_SYNTAX;
@@ -534,9 +534,9 @@ int	DecodeCom(char *c) {
 					n=strscan(++c,cc,',');
 					if(n) {
 						if(n>1)
-							*(short *)strtol(cc[0],NULL,16)=(short)strtol(cc[1],NULL,16);
+							*(short *)strtol(cc[0],NULL,0)=(short)strtol(cc[1],NULL,0);
 						else
-							printf(",%04X",*(unsigned short *)strtol(cc[0],NULL,16));
+							printf(",%04X",*(unsigned short *)strtol(cc[0],NULL,0));
 						break;
 					}
 					return _PARSE_ERR_SYNTAX;
@@ -545,9 +545,9 @@ int	DecodeCom(char *c) {
 					n=strscan(++c,cc,',');
 					if(n) {
 						if(n>1)
-							*(int *)strtol(cc[0],NULL,16)=(int)strtol(cc[1],NULL,16);
+							*(int *)strtol(cc[0],NULL,0)=(int)strtol(cc[1],NULL,0);
 						else
-							printf(",%08X",*(unsigned int *)strtol(cc[0],NULL,16));
+							printf(",%08X",*(unsigned int *)strtol(cc[0],NULL,0));
 						break;
 					}
 					return _PARSE_ERR_SYNTAX;
@@ -568,6 +568,34 @@ int	DecodeCom(char *c) {
 						sDump((char *)getHEX(cc[0],EOF),n);
 					}
 					break;
+//__________________________________________________submit CAN message(PFM from_)
+				case '<': {
+CanTxMsg	tx={0,0,CAN_ID_STD,CAN_RTR_DATA,0,0,0,0,0,0,0,0,0};
+int				n;
+					tx.StdId=getHEX(++c,2);
+					++c;++c;
+					for(n=0; n<strlen(c);++n,++n)
+						tx.Data[n/2]=getHEX(&c[n],2);
+					tx.DLC=n/2;
+					CAN_ITConfig(__CAN__, CAN_IT_FMP0, DISABLE);
+					_buffer_push(__can->rx,&tx,sizeof(CanTxMsg));
+					CAN_ITConfig(__CAN__, CAN_IT_FMP0, ENABLE);
+					break;
+				}				
+//__________________________________________________submit CAN message(PFM to __)
+				case '>': {
+CanTxMsg	tx={0,0,CAN_ID_STD,CAN_RTR_DATA,0,0,0,0,0,0,0,0,0};
+int				i;
+					tx.StdId=getHEX(++c,2);
+					++c;++c;
+					for(i=0; i<strlen(c);++i,++i)
+						tx.Data[i/2]=getHEX(&c[i],2);
+					tx.DLC=i/2;
+//					CAN_ITConfig(__CAN__, CAN_IT_TME, DISABLE);	
+					i=_buffer_push(__can->tx,&tx,sizeof(CanTxMsg));
+//					CAN_ITConfig(__CAN__, CAN_IT_TME, ENABLE);							
+					break;
+				}
 //__________________________________________________submit CAN message(SYS to PFM)______
 				case '.': {
 CanTxMsg	tx={_ID_SYS2PFM,0,CAN_ID_STD,CAN_RTR_DATA,0,0,0,0,0,0,0,0,0};
@@ -579,20 +607,6 @@ int				n;
 					_buffer_push(__can->rx,&tx,sizeof(CanTxMsg));
 					CAN_ITConfig(__CAN__, CAN_IT_FMP0, ENABLE);
 					CanReply(NULL);	
-					break;
-				}
-//__________________________________________________submit CAN message(SYS to __)______
-				case '_': {
-CanTxMsg	tx={0,0,CAN_ID_STD,CAN_RTR_DATA,0,0,0,0,0,0,0,0,0};
-int				n;
-					tx.StdId=getHEX(++c,2);
-					++c;++c;
-					for(n=0; n<strlen(c);++n,++n)
-						tx.Data[n/2]=getHEX(&c[n],2);
-					tx.DLC=n/2;
-					CAN_ITConfig(__CAN__, CAN_IT_FMP0, DISABLE);
-					_buffer_push(__can->rx,&tx,sizeof(CanTxMsg));
-					CAN_ITConfig(__CAN__, CAN_IT_FMP0, ENABLE);
 					break;
 				}
 //__________________________________________________i2c read_________________
@@ -672,9 +686,9 @@ int				n;
 					}
 
 					if(n==3)
-						pfm->Burst.Ereq = atoi(cc[2]);
+						pfm->Burst.Ptype = (ptype)atoi(cc[2]);
 					else
-						pfm->Burst.Ereq = 0x01;
+						pfm->Burst.Ptype = _SHPMOD_MAIN;
 					SetPwmTab(pfm);
 
 					if(n==4) {																		// dodatek za vnos pockelsa 
@@ -940,7 +954,7 @@ int			u=0,umax=0,umin=0;
 				case ':':
 					return DecodeFs(++c);
 //______________________________________________________________________________________
-				case '*':
+//				case '*':
 //					return DecodeSpi(++c);
 //______________________________________________________________________________________
 				default:
@@ -1054,7 +1068,7 @@ fno.lfsize = sizeof lfn;
 							Watchdog_init(4000);
 							fno.lfname = lfn;																								//	set long filename buffer 
 							fno.lfsize = sizeof lfn;
-							_RED2(0);_GREEN2(0);_BLUE2(0);_YELLOW2(0);
+							_RED1(0);_GREEN1(0);_BLUE1(0);_YELLOW1(0);
 							if(f_mount(FSDRIVE_USB,&fs0)==FR_OK)														// mount usb 
 								if(f_mount(FSDRIVE_CPU,&fs1)==FR_OK)													// mount flash
 									if(f_chdrive(FSDRIVE_USB)== FR_OK)													// go to usb drive
@@ -1069,6 +1083,10 @@ fno.lfsize = sizeof lfn;
 													if(f_chdrive(FSDRIVE_CPU)== FR_OK && f_open(&f1,t,FA_CREATE_ALWAYS | FA_WRITE)!=FR_OK) continue;
 
 													for (;;) {
+														if((__time__ / 100) % 2)
+															_YELLOW1(1000);
+														else
+															_YELLOW1(0);															
 														fr = f_read(&f0, buffer, sizeof buffer, &br);			/* Read a chunk of source file */
 														if (fr || br == 0) break; 												/* error or eof */
 														fr = f_write(&f1, buffer, br, &bw);								/* Write it to the destination file */
@@ -1083,9 +1101,9 @@ fno.lfsize = sizeof lfn;
 											f_mount(FSDRIVE_CPU,&fs1);
 											}
 											if(state>1)
-												_YELLOW2(1000);
+												_GREEN1(3000);
 											else
-												_RED2(1000);
+												_RED1(3000);
 						}
 						
 						if(call==EOF) {
