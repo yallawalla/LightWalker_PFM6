@@ -696,7 +696,6 @@ int				n;
 						pfm->qwidth=atoi(cc[3]);
 						PFM_pockels(pfm);
 					}
-					
 					break;
 //______________________________________________________________________________________
 				case 'd':
@@ -907,7 +906,7 @@ int			u=0,umax=0,umin=0;
 					if(!umax)
 						umax=u+u/10;
 					if(!umin)
-						umin=u-2*u/3;
+						umin=u-u/3;
 					if(u>800 || u<0 || umin>=u || umax<=u)										
 						return _PARSE_ERR_ILLEGAL;
 					pfm->Burst.HVo=_HV2AD(u);

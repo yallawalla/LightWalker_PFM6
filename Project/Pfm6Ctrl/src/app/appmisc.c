@@ -109,7 +109,7 @@ const	int Rtab[]={
 int 	LW_SpecOps(PFM *p, burst *mirr) {
 	
 			p->Burst.Erpt = 0;
-// _________________________________________________________________________________________________________
+// ___ ASP__________________________________________________________________________________________________
 			if(_MODE(p,__ASP__) && mirr->Time == 50 && mirr->Length==1 && mirr->N == 5 && mirr->Ptype == _SHPMOD_MAIN) {
 				p->Burst.Ptype |= (_SHPMOD_ASP | _SHPMOD_CAL);	
 				p->Burst.Length=mirr->Length*1000;
@@ -118,13 +118,28 @@ int 	LW_SpecOps(PFM *p, burst *mirr) {
 				p->Burst.Repeat=mirr->Repeat;
 				return -1;
 			}
-// _________________________________________________________________________________________________________
-///			if(_MODE(p,__SWEEPS__) && mirr->Time == 50 && mirr->N == 2 && mirr->Ptype == _SHPMOD_MAIN) {
+// ___ I-4421______________________________________________________________________________________________________
 			if(mirr->Time == 50 && mirr->N == 2 && mirr->Ptype == _SHPMOD_MAIN) {
 				p->Burst.Ptype |= _SHPMOD_SWEEPS;
 				p->Burst.Length=mirr->Length*10;
 				p->Burst.Time=mirr->Time;
 				p->Burst.N=mirr->N;
+				p->Burst.Repeat=mirr->Repeat;
+				return -1;
+			}	
+// ___ I-5178______________________________________________________________________________________________________
+			if(mirr->Time == 250 && mirr->N == 0 && mirr->Length==0 && mirr->Ptype == _SHPMOD_MAIN) {
+				p->Burst.Time=220;
+				p->Burst.N=1;
+				p->Burst.Length=_MAX_BURST/_uS;
+				p->Burst.Repeat=mirr->Repeat;
+				return -1;
+			}	
+// ___ I-5178______________________________________________________________________________________________________
+			if(mirr->Time == 750 && mirr->N == 0 && mirr->Length==0 && mirr->Ptype == _SHPMOD_MAIN) {
+				p->Burst.Time=860;
+				p->Burst.N=1;
+				p->Burst.Length=_MAX_BURST/_uS;
 				p->Burst.Repeat=mirr->Repeat;
 				return -1;
 			}	
@@ -193,7 +208,7 @@ int		Uo=p->Burst.Pmax;
 //
 //
 //-------preludij-------------------
-			if(p->Burst.Ptype & 0x02) {
+			if(p->Burst.Ptype & _SHPMOD_CAL) {
 				int	du=0,u=0;
 
 				for(i=0; i<sizeof(shape)/sizeof(_QSHAPE); ++i)
@@ -493,19 +508,22 @@ int		IgbtTemp(void) {
 int		cc,t=__max( __fit(ADC3_buf[0].IgbtT1,Rtab,Ttab),
 									__fit(ADC3_buf[0].IgbtT2,Rtab,Ttab));
 
-			if(t<fanTL)
-				cc=(_FAN_PWM_RATE*fanPmin)/200;
-			else {
-				if (t>fanTH)
-					cc=(_FAN_PWM_RATE*fanPmax)/200;
+			if(__time__ > 5000) {
+				if(t<fanTL)
+					cc=(_FAN_PWM_RATE*fanPmin)/200;
+				else {
+					if (t>fanTH)
+						cc=(_FAN_PWM_RATE*fanPmax)/200;
+					else
+						cc=(_FAN_PWM_RATE*(((t-fanTL)*(fanPmax-fanPmin))/(fanTH-fanTL)+fanPmin	))/200;
+				}
+				cc=__min(_FAN_PWM_RATE/2-5,__max(5,cc));
+				
+				if(TIM_GetCapture1(TIM3) < cc)
+					TIM_SetCompare1(TIM3,TIM_GetCapture1(TIM3)+1);
 				else
-					cc=(_FAN_PWM_RATE*(((t-fanTL)*(fanPmax-fanPmin))/(fanTH-fanTL)+fanPmin	))/200;
+					TIM_SetCompare1(TIM3,TIM_GetCapture1(TIM3)-1);
 			}
-			cc=__min(_FAN_PWM_RATE/2-5,__max(5,cc));
-			if(TIM_GetCapture1(TIM3) < cc)
-				TIM_SetCompare1(TIM3,TIM_GetCapture1(TIM3)+1);
-			else
-				TIM_SetCompare1(TIM3,TIM_GetCapture1(TIM3)-1);
 			return(t/100);
 }
 /*******************************************************************************/

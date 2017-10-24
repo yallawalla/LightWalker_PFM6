@@ -20,7 +20,7 @@
 #include				"usb_conf.h"
 #include				"usbh_core.h"
 			          
-#define 				SW_version		114						
+#define 				SW_version		115						
 			          
 #ifdef __DISCO__
 #define					_uS						42

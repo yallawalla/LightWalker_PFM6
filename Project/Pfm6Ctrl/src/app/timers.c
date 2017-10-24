@@ -167,6 +167,7 @@ EXTI_InitTypeDef   				EXTI_InitStructure;
 		TIM_TimeBaseInit(TIM3,&TIM_TimeBaseStructure);
 // ________________________________________________________________________________
 // Output Compares	TIM1,8
+//
 		TIM_OCInitStructure.TIM_OutputState = TIM_OutputState_Enable;
 		TIM_OCInitStructure.TIM_OCMode = TIM_OCMode_PWM1;
 		TIM_OCInitStructure.TIM_Pulse=0;
@@ -187,7 +188,7 @@ EXTI_InitTypeDef   				EXTI_InitStructure;
 
 // Output Compares, CH1	TIM3
 
-		TIM_OCInitStructure.TIM_Pulse=1;
+		TIM_OCInitStructure.TIM_Pulse=_FAN_PWM_RATE/2-5;									// max speed rate at reset !!!
 		TIM_OCInitStructure.TIM_OCPolarity = TIM_OCPolarity_High;
 		TIM_OC1Init(TIM3, &TIM_OCInitStructure);
 
@@ -203,7 +204,6 @@ EXTI_InitTypeDef   				EXTI_InitStructure;
 		TIM_ICInit(TIM3, &TIM_ICInitStructure);
 
 		TIM_ITConfig(TIM3, TIM_IT_CC2,ENABLE);
-
 // ________________________________________________________________________________
 // Startup
 
