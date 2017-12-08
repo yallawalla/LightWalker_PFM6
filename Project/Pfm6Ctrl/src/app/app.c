@@ -601,7 +601,7 @@ static burst bmirror;
 //______________________________________________________________________________________
 								case _ID_ENRG2SYS: 																						// energometer-2-system message
 								{
-									void Sweep(PFM *,int);
+									void Sweeps(PFM *,int);
 									union {short w[4];} *e = (void *)q;			
 									if(_DBG(p,_DBG_ENRG_SYS)) {
 _io 								*io=_stdio(__dbug);										
@@ -611,7 +611,7 @@ _io 								*io=_stdio(__dbug);
 									_stdio(io);
 									}
 									if((p->Burst.Ptype & _SHPMOD_SWEEPS) && (unsigned short)e->w[0]==0xD103)
-										Sweep(p,__max(0,e->w[2]));	
+										Sweeps(p,__max(0,e->w[2]));	
 								}
 								break;
 //______________________________________________________________________________________

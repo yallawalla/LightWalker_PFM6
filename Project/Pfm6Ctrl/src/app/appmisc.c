@@ -164,7 +164,10 @@ extern short user_shape[];
 #define	_K1											(_STATUS(p, PFM_STAT_SIMM1)/1)
 #define	_K2											(_STATUS(p, PFM_STAT_SIMM2)/2)
 #define	_minmax(x,x1,x2,y1,y2) 	__min(__max(((y2-y1)*(x-x1))/(x2-x1)+y1,y1),y2)
-int 		ksweeps=80, nsweeps=0; 																	// sweeps coeff.
+
+int tabNsw[]	={ 130, 25, -25, -50 };
+int tabTo[]		={ 150, 300, 450, 600};
+
 /*******************************************************************************
 * Function Name : SetPwmTab
 * Description   : set the pwm sequence
@@ -289,28 +292,27 @@ int		Uo=p->Burst.Pmax;
 //_______________________________________________________________________________________________________________________________
 // SWEEPS ...........................................................
 // mode recognized by mode req, pulse time = 50u, burst length = 1ms, no. of pulses = 5, regular call ...
-//
-
-					if(p->Burst.Ptype & _SHPMOD_SWEEPS) {
 // set distance after 1 pulse
+					if(p->Burst.Ptype & _SHPMOD_SWEEPS) {
 						if(j==0) {
-							if(p->Burst.Length < 300 || p->Burst.Length > 600)
-								too=10*abs((p->Burst.Count % 60)-30)+250;					
+							if(p->Burst.Length < _SWMIN || p->Burst.Length > _SWMAX)		
+								too=10*abs((p->Burst.Count % (2*_SWN))-_SWN) + _SWMIN - p->Burst.Time;		// auto sweeps				
 							else
-								too=p->Burst.Length - p->Burst.Time;	
+								too=p->Burst.Length*3/2 - 300  - p->Burst.Time;														// fixed - raztegnjeno na 150 us min !!!
 						}								
 // break the seq. if alternate setup mode and odd pulse; else, compute voltage correction on delta t 
 						if(j==1) {
-							if(p->Burst.Count > 0 && p->Burst.Count % 30 == 0)
+							if(p->Burst.Count > 0 && p->Burst.Count % _SWN == 0)
 								break;
-// nad 600V ni spreminjanja 2 pulza, da ne tresci v 650 plafon !
+// nad 600V ni spreminjanja 2 pulza, da ne tresci v 650V plafon !
 							if(p->Burst.Pmax < (int)(_PWM_RATE_HI*0.85))		
-								Uo += Uo*(too - 550)*ksweeps/300/1000+Uo*nsweeps/1000;
+//								Uo += Uo*(too - _SWMAX +50)*ksweeps/(_SWMAX-_SWMIN)/1000+Uo*nsweeps/1000;
+							Uo -= __fit(too,tabTo,tabNsw)*Uo/1000;
 						}
 // unconditional break on second pulse 
 						if(j==2)
 							break;
-					}					
+					}		
 //..end  sweeps........................................
 //_______________________________________________________________________________________________________________________________
 //_______________________________________________________________________________________________________________________________
@@ -563,29 +565,20 @@ __inline int signum(double val) {
   * @param  main PFM object *p, int emj=ENM message energy, 10*mJ
   * @retval NONE
   */
-void		Sweep(PFM *p,int emj) {
-static	int	offref=0,kref=0;
-int			n=abs(p->Burst.Count % 60 - 30);
+void		Sweeps(PFM *p,int emj) {
+static	int	ref=0;
+int			n=abs(p->Burst.Count % (2*_SWN) - _SWN);
 				if(p->Burst.Ptype & _SHPMOD_SWEEPS) {																		// check mode
-					if(p->Burst.Count >= 30) {																						// ignore the first sweep
-						if(n % 30 == 0) {																										// on the extremes, do the following...
-							if(p->Burst.Length < 300 || p->Burst.Length > 600) {							// skip the distance compensation if fix mode
-								if(n==0)																												// otherwise, on the left 
-									ksweeps = __max(__min(ksweeps + signum(kref-emj),110),70);		// 		increment K
-								else																														// on the right
-									ksweeps = __max(__min(ksweeps - signum(kref-emj),110),70);		//		decrement K
-							}
-							offref=emj;																												// take the offset reference					
-							if(_DBG(p,25)) {																									// just debug stuff...
-								_io *io=_stdio(__dbug);
-								printf(":%04d, %dV,%3.1f, %d, %d\r\n>",n,pfm->Burst.Pmax*_AD2HV(pfm->Burst.HVo)/_PWM_RATE_HI, ((float)offref)/10.0,ksweeps,nsweeps);
-								_stdio(io);
-							}
-						} else {																														// in between
-							nsweeps = __max(__min(nsweeps + signum(offref-emj/2),100),-100);	// 		adjust 2nd's offset
+					if(p->Burst.Count >= _SWN) {																					// ignore the first sweep
+						if(n % _SWN == 0) {																									// on the extremes, do the following...																																	// in between
+							tabNsw[0] += signum(ref/_SWN/2-emj);
+							tabNsw[1] += signum(ref/_SWN/2-emj);
+							tabNsw[2] += signum(ref/_SWN/2-emj);
+							tabNsw[3] += signum(ref/_SWN/2-emj);
+							ref=0;
 						}
 					}
-					kref=emj/2;																														// take the K reference
+					ref += emj;																														// take the K reference
 					p->Burst.Count++;																											// increment pulse counter
 					p->Burst.Timeout = __time__ + 5*p->Burst.Repeat;											// set next burst timeout
 					SetPwmTab(p);																													// update pwm table...

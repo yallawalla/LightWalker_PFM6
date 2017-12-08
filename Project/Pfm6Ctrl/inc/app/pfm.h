@@ -20,7 +20,7 @@
 #include				"usb_conf.h"
 #include				"usbh_core.h"
 			          
-#define 				SW_version		115						
+#define 				SW_version		116						
 			          
 #ifdef __DISCO__
 #define					_uS						42
@@ -81,7 +81,7 @@ void						_led(int, int),
 #define					_YELLOW2(a)		_led(7,a)
 #define					_BLUE2(a)			_led(8,a)
 #define					_ORANGE2(a)		_led(9,a)
-                 
+           
 //________________________________________________________________________
 typedef					 enum
 {								_TRIGGER,
@@ -466,7 +466,11 @@ int 						Defragment(int);
 #define					_PFM_I2C_ERR			0x8000
 				        
 #define					_PFM_CWBAR_STAT		PFM_ERR_PULSEENABLE
-				        
+											
+#define					_SWMAX	600
+#define					_SWMIN	150
+#define 				_SWN 		((_SWMAX - _SWMIN)/10)
+											
 enum	err_parse	{
 								_PARSE_OK=0,
 								_PARSE_ERR_SYNTAX,

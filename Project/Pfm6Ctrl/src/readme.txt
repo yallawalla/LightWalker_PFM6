@@ -485,5 +485,17 @@ sweeps:
 
 sweeps update...
 
+>v 1.15 Feb 24 2017, <5A51785E>
+
+..  msp, vlp šmafu ..
+... ventilatorji, zagon
+... 780V v 800, cfg.ini
+
+>v 1.16 Dec  8 2017, <21502057>
+
+sweeps od 150..600, cubic fit... 
+300-600 ms shekano na 150-600
+
+
   
   
