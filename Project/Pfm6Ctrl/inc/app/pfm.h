@@ -25,11 +25,11 @@
 #ifdef __DISCO__
 #define					_uS						42
 #define					_mS						(1000*_uS)
-#define					_MAX_BURST		(1*_mS)
+#define					_MAX_BURST		(4*_mS)
 #else
 #define					_uS						60
 #define					_mS						(1000*_uS)
-#define					_MAX_BURST		(3*_mS)
+#define					_MAX_BURST		(4*_mS)
 #endif
 
 #define					_PWM_RATE_HI	(10*_uS)

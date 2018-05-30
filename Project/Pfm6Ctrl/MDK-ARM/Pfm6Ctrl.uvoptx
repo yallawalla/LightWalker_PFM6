@@ -75,7 +75,7 @@
       <OPTFL>
         <tvExp>1</tvExp>
         <tvExpOptDlg>0</tvExpOptDlg>
-        <IsCurrentTarget>1</IsCurrentTarget>
+        <IsCurrentTarget>0</IsCurrentTarget>
       </OPTFL>
       <CpuCode>18</CpuCode>
       <DebugOpt>
@@ -217,26 +217,9 @@
       <OPTFL>
         <tvExp>1</tvExp>
         <tvExpOptDlg>0</tvExpOptDlg>
-        <IsCurrentTarget>0</IsCurrentTarget>
+        <IsCurrentTarget>1</IsCurrentTarget>
       </OPTFL>
       <CpuCode>18</CpuCode>
-      <Books>
-        <Book>
-          <Number>0</Number>
-          <Title>Schematics (MCBSTM32F200)</Title>
-          <Path>C:\Keil_v5\ARM\PACK\Keil\STM32F2xx_DFP\2.6.0\MDK\Boards\Keil\MCBSTM32F200\Documentation\mcbstm32f200-schematics.pdf</Path>
-        </Book>
-        <Book>
-          <Number>1</Number>
-          <Title>User Manual (MCBSTM32F200)</Title>
-          <Path>C:\Keil_v5\ARM\PACK\Keil\STM32F2xx_DFP\2.6.0\MDK\Boards\Keil\MCBSTM32F200\Documentation\mcbstm32f200.chm</Path>
-        </Book>
-        <Book>
-          <Number>2</Number>
-          <Title>MCBSTM32F200 Evaluation Board Web Page (MCBSTM32F200)</Title>
-          <Path>http://www.keil.com/mcbstm32f200/</Path>
-        </Book>
-      </Books>
       <DebugOpt>
         <uSim>0</uSim>
         <uTrg>1</uTrg>
@@ -560,7 +543,7 @@
 
   <Group>
     <GroupName>USBD User</GroupName>
-    <tvExp>0</tvExp>
+    <tvExp>1</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>

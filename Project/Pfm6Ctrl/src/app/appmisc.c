@@ -298,7 +298,8 @@ int		Uo=p->Burst.Pmax;
 							if(p->Burst.Length < _SWMIN || p->Burst.Length > _SWMAX)		
 								too=10*abs((p->Burst.Count % (2*_SWN))-_SWN) + _SWMIN - p->Burst.Time;		// auto sweeps				
 							else
-								too=p->Burst.Length*3/2 - 300  - p->Burst.Time;														// fixed - raztegnjeno na 150 us min !!!
+//								too=p->Burst.Length*3/2 - 300  - p->Burst.Time;														// fake - raztegnjeno na 150 us min !!!
+								too=p->Burst.Length  - p->Burst.Time;
 						}								
 // break the seq. if alternate setup mode and odd pulse; else, compute voltage correction on delta t 
 						if(j==1) {
