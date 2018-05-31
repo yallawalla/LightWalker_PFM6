@@ -497,9 +497,11 @@ sweeps od 150..600, cubic fit...
 300-600 ms shekano na 150-600
 
 18.4.2018
-
-- še vedno V1.16
-- maxburst podaljšan na 8 msec
+- V1.16
+- maxburst podaljšan na 4 msec
 - odstranjen razteg intervala na sweeps
+- autosweeps interval na 250-550
+
+v 1.16 May 31 2018, <8ECEE25D>
 
   

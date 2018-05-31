@@ -295,8 +295,8 @@ int		Uo=p->Burst.Pmax;
 // set distance after 1 pulse
 					if(p->Burst.Ptype & _SHPMOD_SWEEPS) {
 						if(j==0) {
-							if(p->Burst.Length < _SWMIN || p->Burst.Length > _SWMAX)		
-								too=10*abs((p->Burst.Count % (2*_SWN))-_SWN) + _SWMIN - p->Burst.Time;		// auto sweeps				
+							if(p->Burst.Length < _SWMIN-100 || p->Burst.Length > _SWMAX+50)		
+								too=10*abs((p->Burst.Count % (2*_SWN))-_SWN) + _SWMIN - p->Burst.Time;			// auto sweeps				
 							else
 //								too=p->Burst.Length*3/2 - 300  - p->Burst.Time;														// fake - raztegnjeno na 150 us min !!!
 								too=p->Burst.Length  - p->Burst.Time;

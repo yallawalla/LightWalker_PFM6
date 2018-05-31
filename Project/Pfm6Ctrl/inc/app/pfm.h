@@ -467,8 +467,8 @@ int 						Defragment(int);
 				        
 #define					_PFM_CWBAR_STAT		PFM_ERR_PULSEENABLE
 											
-#define					_SWMAX	600
-#define					_SWMIN	150
+#define					_SWMAX	550
+#define					_SWMIN	250
 #define 				_SWN 		((_SWMAX - _SWMIN)/10)
 											
 enum	err_parse	{
