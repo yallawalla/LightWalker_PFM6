@@ -53,6 +53,10 @@ RCC_AHB1PeriphClockCmd(
 					pfm->Burst.Pdelay=_PWM_RATE_HI*0.02;
 					pfm->Burst.Pmax=_PWM_RATE_HI*0.02;
 					pfm->Burst.Count=pfm->Burst.Timeout=0;
+					pfm->Burst.swmax=550;
+					pfm->Burst.swmin=250;
+					pfm->Burst.swn=30;				//((_SWMAX - _SWMIN)/10)
+
 					pfm->ADCRate=_uS;
 					
 					pfm->qdelay=0;

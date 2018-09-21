@@ -287,6 +287,7 @@ short						Repeat,						//	_PFM_reset command parameters
 int							Timeout,					// sweeps pulse counter timeout
 								Count;						// sweeps pulse counter
 ptype						Ptype;
+int							swmax,swmin,swn;
 } burst;
 //________________________________________________________________________
 typedef 				struct {
@@ -467,9 +468,6 @@ int 						Defragment(int);
 				        
 #define					_PFM_CWBAR_STAT		PFM_ERR_PULSEENABLE
 											
-#define					_SWMAX	550
-#define					_SWMIN	250
-#define 				_SWN 		((_SWMAX - _SWMIN)/10)
 											
 enum	err_parse	{
 								_PARSE_OK=0,

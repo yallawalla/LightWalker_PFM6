@@ -122,6 +122,14 @@ int 	LW_SpecOps(PFM *p, burst *mirr) {
 			if(mirr->Time == 50 && mirr->N == 2 && mirr->Ptype == _SHPMOD_MAIN) {
 				p->Burst.Ptype |= _SHPMOD_SWEEPS;
 				p->Burst.Length=mirr->Length*10;
+				
+				if(p->Burst.Length > 50) {
+					p->Burst.swmin=p->Burst.Length-50;
+					p->Burst.swmax=p->Burst.Length+50;
+					p->Burst.swn=10;
+					p->Burst.Length=0;
+				}
+					
 				p->Burst.Time=mirr->Time;
 				p->Burst.N=mirr->N;
 				p->Burst.Repeat=mirr->Repeat;
@@ -142,7 +150,7 @@ int 	LW_SpecOps(PFM *p, burst *mirr) {
 				p->Burst.Length=_MAX_BURST/_uS;
 				p->Burst.Repeat=mirr->Repeat;
 				return -1;
-			}	
+			}
 // _________________________________________________________________________________________________________
 			if(mirr->N==0)
 				p->Burst.N=1;
@@ -295,15 +303,15 @@ int		Uo=p->Burst.Pmax;
 // set distance after 1 pulse
 					if(p->Burst.Ptype & _SHPMOD_SWEEPS) {
 						if(j==0) {
-							if(p->Burst.Length < _SWMIN-100 || p->Burst.Length > _SWMAX+50)		
-								too=10*abs((p->Burst.Count % (2*_SWN))-_SWN) + _SWMIN - p->Burst.Time;			// auto sweeps				
+							if(p->Burst.Length < p->Burst.swmin-100 || p->Burst.Length > p->Burst.swmax+50)		
+								too=10*abs((p->Burst.Count % (2*p->Burst.swn))-p->Burst.swn) + p->Burst.swmin - p->Burst.Time;			// auto sweeps				
 							else
 //								too=p->Burst.Length*3/2 - 300  - p->Burst.Time;														// fake - raztegnjeno na 150 us min !!!
 								too=p->Burst.Length  - p->Burst.Time;
 						}								
 // break the seq. if alternate setup mode and odd pulse; else, compute voltage correction on delta t 
 						if(j==1) {
-							if(p->Burst.Count > 0 && p->Burst.Count % _SWN == 0)
+							if(p->Burst.Count > 0 && p->Burst.Count % p->Burst.swn == 0)
 								break;
 // nad 600V ni spreminjanja 2 pulza, da ne tresci v 650V plafon !
 							if(p->Burst.Pmax < (int)(_PWM_RATE_HI*0.85))		
@@ -568,14 +576,14 @@ __inline int signum(double val) {
   */
 void		Sweeps(PFM *p,int emj) {
 static	int	ref=0;
-int			n=abs(p->Burst.Count % (2*_SWN) - _SWN);
+int			n=abs(p->Burst.Count % (2*p->Burst.swn) - p->Burst.swn);
 				if(p->Burst.Ptype & _SHPMOD_SWEEPS) {																		// check mode
-					if(p->Burst.Count >= _SWN) {																					// ignore the first sweep
-						if(n % _SWN == 0) {																									// on the extremes, do the following...																																	// in between
-							tabNsw[0] += signum(ref/_SWN/2-emj);
-							tabNsw[1] += signum(ref/_SWN/2-emj);
-							tabNsw[2] += signum(ref/_SWN/2-emj);
-							tabNsw[3] += signum(ref/_SWN/2-emj);
+					if(p->Burst.Count >= p->Burst.swn) {																	// ignore the first sweep
+						if(n % p->Burst.swn == 0) {																					// on the extremes, do the following...																																	// in between
+							tabNsw[0] += signum(ref/p->Burst.swn/2-emj);
+							tabNsw[1] += signum(ref/p->Burst.swn/2-emj);
+							tabNsw[2] += signum(ref/p->Burst.swn/2-emj);
+							tabNsw[3] += signum(ref/p->Burst.swn/2-emj);
 							ref=0;
 						}
 					}
