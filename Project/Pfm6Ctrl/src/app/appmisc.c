@@ -128,6 +128,10 @@ int 	LW_SpecOps(PFM *p, burst *mirr) {
 					p->Burst.swmax=p->Burst.Length+50;
 					p->Burst.swn=10;
 					p->Burst.Length=0;
+				} else {
+					pfm->Burst.swmax=550;
+					pfm->Burst.swmin=250;
+					pfm->Burst.swn=30;				// back to defaults :)
 				}
 					
 				p->Burst.Time=mirr->Time;
@@ -173,7 +177,8 @@ extern short user_shape[];
 #define	_K2											(_STATUS(p, PFM_STAT_SIMM2)/2)
 #define	_minmax(x,x1,x2,y1,y2) 	__min(__max(((y2-y1)*(x-x1))/(x2-x1)+y1,y1),y2)
 
-int tabNsw[]	={ 130, 25, -25, -50 };
+//int tabNsw[]	={ 130, 25, -25, -50 };
+int tabNsw[]	={ 180, 75, 25, 0 };
 int tabTo[]		={ 150, 300, 450, 600};
 
 /*******************************************************************************
@@ -303,20 +308,18 @@ int		Uo=p->Burst.Pmax;
 // set distance after 1 pulse
 					if(p->Burst.Ptype & _SHPMOD_SWEEPS) {
 						if(j==0) {
-							if(p->Burst.Length < p->Burst.swmin-100 || p->Burst.Length > p->Burst.swmax+50)		
+//					if(p->Burst.Length < p->Burst.swmin-100 || p->Burst.Length > p->Burst.swmax+50)		
 								too=10*abs((p->Burst.Count % (2*p->Burst.swn))-p->Burst.swn) + p->Burst.swmin - p->Burst.Time;			// auto sweeps				
-							else
-//								too=p->Burst.Length*3/2 - 300  - p->Burst.Time;														// fake - raztegnjeno na 150 us min !!!
-								too=p->Burst.Length  - p->Burst.Time;
+//					else
+//						too=p->Burst.Length  - p->Burst.Time;
 						}								
 // break the seq. if alternate setup mode and odd pulse; else, compute voltage correction on delta t 
 						if(j==1) {
 							if(p->Burst.Count > 0 && p->Burst.Count % p->Burst.swn == 0)
 								break;
 // nad 600V ni spreminjanja 2 pulza, da ne tresci v 650V plafon !
-							if(p->Burst.Pmax < (int)(_PWM_RATE_HI*0.85))		
-//								Uo += Uo*(too - _SWMAX +50)*ksweeps/(_SWMAX-_SWMIN)/1000+Uo*nsweeps/1000;
-							Uo -= __fit(too,tabTo,tabNsw)*Uo/1000;
+							if(p->Burst.Pmax < (int)(_PWM_RATE_HI*0.85))	
+								Uo -= __fit(__max(150,__min(600,too)),tabTo,tabNsw)*Uo/1000;
 						}
 // unconditional break on second pulse 
 						if(j==2)
