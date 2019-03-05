@@ -508,7 +508,13 @@ v 1.17 Feb 27 2019, <E24983D1>
 - izenacenje pulzov pri max. intervalu (600)
 - korekcija se "zalepi" pri min/max int. (250-600) 
 
+v 1.17 Mar  5 2019, <578D5E37>
+- razširjeno obmocje sweeps korekcije 50-600
+
+
 testne sekvence, Teraterm delay=50ms
+
+
 
 setup
 

@@ -178,8 +178,10 @@ extern short user_shape[];
 #define	_minmax(x,x1,x2,y1,y2) 	__min(__max(((y2-y1)*(x-x1))/(x2-x1)+y1,y1),y2)
 
 //int tabNsw[]	={ 130, 25, -25, -50 };
-int tabNsw[]	={ 180, 75, 25, 0 };
-int tabTo[]		={ 150, 300, 450, 600};
+//int tabNsw[]	={ 180, 75, 25, 0 };
+//int tabTo[]		={ 150, 300, 450, 600};
+int tabNsw[]	={ 300, 75, 25, 0 };
+int tabTo[]		={ 50, 300, 450, 600};
 
 /*******************************************************************************
 * Function Name : SetPwmTab
@@ -319,7 +321,7 @@ int		Uo=p->Burst.Pmax;
 								break;
 // nad 600V ni spreminjanja 2 pulza, da ne tresci v 650V plafon !
 							if(p->Burst.Pmax < (int)(_PWM_RATE_HI*0.85))	
-								Uo -= __fit(__max(150,__min(600,too)),tabTo,tabNsw)*Uo/1000;
+								Uo -= __fit(__max(50,__min(600,too)),tabTo,tabNsw)*Uo/1000;
 						}
 // unconditional break on second pulse 
 						if(j==2)
