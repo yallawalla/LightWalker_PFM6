@@ -124,14 +124,10 @@ int 	LW_SpecOps(PFM *p, burst *mirr) {
 				p->Burst.Length=mirr->Length*10;
 				
 				if(p->Burst.Length > 50) {
-					p->Burst.swmin=p->Burst.Length-50;
-					p->Burst.swmax=p->Burst.Length+50;
-					p->Burst.swn=10;
-					p->Burst.Length=0;
+					p->Burst.swn=p->swn;
 				} else {
-					pfm->Burst.swmax=550;
-					pfm->Burst.swmin=250;
-					pfm->Burst.swn=30;				// back to defaults :)
+					p->Burst.Length = 400;
+					p->Burst.swn=30;
 				}
 					
 				p->Burst.Time=mirr->Time;
@@ -311,13 +307,14 @@ int		Uo=p->Burst.Pmax;
 					if(p->Burst.Ptype & _SHPMOD_SWEEPS) {
 						if(j==0) {
 //					if(p->Burst.Length < p->Burst.swmin-100 || p->Burst.Length > p->Burst.swmax+50)		
-								too=10*abs((p->Burst.Count % (2*p->Burst.swn))-p->Burst.swn) + p->Burst.swmin - p->Burst.Time;			// auto sweeps				
+								too=10*abs((p->Burst.Count % (2*p->Burst.swn))-p->Burst.swn) + p->Burst.Length- 5*p->Burst.swn - p->Burst.Time;			// auto sweeps				
 //					else
 //						too=p->Burst.Length  - p->Burst.Time;
 						}								
 // break the seq. if alternate setup mode and odd pulse; else, compute voltage correction on delta t 
 						if(j==1) {
-							if(p->Burst.Count > 0 && p->Burst.Count % p->Burst.swn == 0)
+//							if(p->Burst.Count > 0 && p->Burst.Count % p->Burst.swn == 0)
+							if(p->Burst.Count % p->Burst.swn == 0)
 								break;
 // nad 600V ni spreminjanja 2 pulza, da ne tresci v 650V plafon !
 							if(p->Burst.Pmax < (int)(_PWM_RATE_HI*0.85))	

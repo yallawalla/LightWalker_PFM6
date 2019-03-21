@@ -53,9 +53,7 @@ RCC_AHB1PeriphClockCmd(
 					pfm->Burst.Pdelay=_PWM_RATE_HI*0.02;
 					pfm->Burst.Pmax=_PWM_RATE_HI*0.02;
 					pfm->Burst.Count=pfm->Burst.Timeout=0;
-					pfm->Burst.swmax=550;
-					pfm->Burst.swmin=250;
-					pfm->Burst.swn=30;				//((_SWMAX - _SWMIN)/10)
+					pfm->swn=pfm->Burst.swn=12;
 
 					pfm->ADCRate=_uS;
 					
@@ -487,7 +485,9 @@ int 			inproc=0;
 //______________________________________________________________________________________
 							case _ID_SYS2PFM:
 								switch(*(uint8_t *)q++) {
+
 static burst bmirror;
+
 									case _PFM_status_req:
 										PFM_status_send(p,PFM_command(NULL,0));
 										break;

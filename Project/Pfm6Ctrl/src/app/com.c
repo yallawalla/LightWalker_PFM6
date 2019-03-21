@@ -756,29 +756,43 @@ int				n;
 					break;
 //______________________________________________________________________________________
 				case 's':
-					switch(strscan(++c,cc,',')) {
-						case 0:
-							printf("\r>s(immer) n // t1,t2,tp ... %dns,%dns,%dus",(int)(1000*pfm->Burst.Psimm[0])/_uS,(int)(1000*pfm->Burst.Psimm[1])/_uS,_PWM_RATE_LO/_uS);
+					switch(*++c) {
+						
+						case 'w':
+							if(!strchr(++c,' '))
+								printf("\r>s(weeps) %d",(pfm->swn/2)*10-10);
+							else if (atoi(strchr(c,' ')) > 1000 - pfm->Burst.Length)
+								return _PARSE_ERR_SYNTAX;
+							else if (atoi(strchr(c,' ')) > pfm->Burst.Length - 100)
+								return _PARSE_ERR_SYNTAX;
+							else
+								pfm->swn=pfm->Burst.swn=(atoi(strchr(c,' '))/10+1)*2;
 							break;
-						case 1:
-							PFM_command(pfm,atoi(cc[0]) & 0x3);
-							break;
-						case 2:
-							pfm->Burst.Psimm[0]=atoi(cc[0])*_uS/1000;
-							pfm->Burst.Psimm[1]=atoi(cc[1])*_uS/1000;
-							SetSimmerPw(pfm);
-							break;
-						case 3:
-							pfm->Burst.Psimm[0]=atoi(cc[0])*_uS/1000;
-							pfm->Burst.Psimm[1]=atoi(cc[1])*_uS/1000;
-							if(atoi(cc[2])<10 || atoi(cc[2])>100)
-								return _PARSE_ERR_ILLEGAL;
-							_PWM_RATE_LO=atoi(cc[2])*_uS;
-//						SetSimmerPw(pfm);
-							SetSimmerRate(pfm,_PWM_RATE_LO);		
-							break;
+						
 						default:
-							return _PARSE_ERR_SYNTAX;
+							switch(strscan(c,cc,',')) {
+								case 0:
+									printf("\r>s(immer) n // t1,t2,tp ... %dns,%dns,%dus",(int)(1000*pfm->Burst.Psimm[0])/_uS,(int)(1000*pfm->Burst.Psimm[1])/_uS,_PWM_RATE_LO/_uS);
+									break;
+								case 1:
+									PFM_command(pfm,atoi(cc[0]) & 0x3);
+									break;
+								case 2:
+									pfm->Burst.Psimm[0]=atoi(cc[0])*_uS/1000;
+									pfm->Burst.Psimm[1]=atoi(cc[1])*_uS/1000;
+									SetSimmerPw(pfm);
+									break;
+								case 3:
+									pfm->Burst.Psimm[0]=atoi(cc[0])*_uS/1000;
+									pfm->Burst.Psimm[1]=atoi(cc[1])*_uS/1000;
+									if(atoi(cc[2])<10 || atoi(cc[2])>100)
+										return _PARSE_ERR_ILLEGAL;
+									_PWM_RATE_LO=atoi(cc[2])*_uS;
+									SetSimmerRate(pfm,_PWM_RATE_LO);		
+									break;
+								default:
+									return _PARSE_ERR_SYNTAX;
+							}
 					}
 					break;
 //______________________________________________________________________________________

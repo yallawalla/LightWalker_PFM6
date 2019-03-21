@@ -20,7 +20,7 @@
 #include				"usb_conf.h"
 #include				"usbh_core.h"
 			          
-#define 				SW_version		117						
+#define 				SW_version		900						
 			          
 #ifdef __DISCO__
 #define					_uS						42
@@ -283,11 +283,11 @@ short						Repeat,						//	_PFM_reset command parameters
 								Isimm,						// not used 
 								Idelay,						// not used 
 								HVo,							// op. voltage, ADC value x ADC3_AVG	
-								Erpt;
+								Erpt,
+								swn;							// sweeps, working count
 int							Timeout,					// sweeps pulse counter timeout
 								Count;						// sweeps pulse counter
 ptype						Ptype;
-int							swmax,swmin,swn;
 } burst;
 //________________________________________________________________________
 typedef 				struct {
@@ -303,7 +303,7 @@ short						Status,
 _event					events;
 int							mode,
 								debug;	
-short						qdelay,qwidth;
+short						qdelay,qwidth,swn;
 } PFM;				  
 //________________________________________________________________________
 extern					PFM							*pfm;
