@@ -77,7 +77,7 @@ char	*p;
 					RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_CRC, ENABLE);
 					CRC_ResetDR();
 					printf("\rPFM6 bootloader v%d.%02d %s, <%08X>\r\n",
-						SW_version/100,SW_version%100,__DATE__,CRC_CalcBlockCRC(__Vectors, ((_FLASH_TOP-28)-(int)__Vectors)/sizeof(int)));			//crc od vektorjev do zacetka FS
+						SW_version/100,SW_version%100,__DATE__,CRC_CalcBlockCRC(__Vectors, ((_FLASH_TOP-28)-(int)__Vectors)/sizeof(int)));
 					printf("signature %08X:\r\n",_FLASH_TOP);
 					p=(char *)_SIGN_CRC;
 					for(i=0;i<8;++i)

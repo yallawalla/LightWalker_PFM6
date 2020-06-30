@@ -11,12 +11,13 @@
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
       <pCCUsed>5060422::V5.06 update 4 (build 422)::ARMCC</pCCUsed>
+      <uAC6>8</uAC6>
       <TargetOption>
         <TargetCommonOption>
           <Device>STM32F405VGTx</Device>
           <Vendor>STMicroelectronics</Vendor>
-          <PackID>Keil.STM32F4xx_DFP.2.9.0</PackID>
-          <PackURL>http://www.keil.com/pack</PackURL>
+          <PackID>Keil.STM32F4xx_DFP.2.14.0</PackID>
+          <PackURL>http://www.keil.com/pack/</PackURL>
           <Cpu>IRAM(0x20000000,0x20000) IRAM2(0x10000000,0x10000) IROM(0x08000000,0x100000) CPUTYPE("Cortex-M4") FPU2 CLOCK(12000000) ELITTLE</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
           <StartupFile></StartupFile>
@@ -183,6 +184,8 @@
             <hadXRAM>0</hadXRAM>
             <uocXRam>0</uocXRam>
             <RvdsVP>1</RvdsVP>
+            <RvdsMve>0</RvdsMve>
+            <RvdsCdeCp>0</RvdsCdeCp>
             <hadIRAM2>1</hadIRAM2>
             <hadIROM2>0</hadIROM2>
             <StupSel>8</StupSel>
@@ -323,6 +326,7 @@
             <uThumb>0</uThumb>
             <uSurpInc>0</uSurpInc>
             <uC99>0</uC99>
+            <uGnu>0</uGnu>
             <useXO>0</useXO>
             <v6Lang>0</v6Lang>
             <v6LangP>0</v6LangP>
@@ -348,7 +352,7 @@
             <NoWarn>0</NoWarn>
             <uSurpInc>0</uSurpInc>
             <useXO>0</useXO>
-            <uClangAs>0</uClangAs>
+            <ClangAsOpt>4</ClangAsOpt>
             <VariousControls>
               <MiscControls></MiscControls>
               <Define></Define>
@@ -505,12 +509,13 @@
       <TargetName>iap...PFM8</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
-      <pCCUsed>5060422::V5.06 update 4 (build 422)::ARMCC</pCCUsed>
+      <pCCUsed>5060750::V5.06 update 6 (build 750)::.\ARMCC</pCCUsed>
+      <uAC6>0</uAC6>
       <TargetOption>
         <TargetCommonOption>
           <Device>STM32F205VC</Device>
           <Vendor>STMicroelectronics</Vendor>
-          <PackID>Keil.STM32F2xx_DFP.2.6.0</PackID>
+          <PackID>Keil.STM32F2xx_DFP.2.9.0</PackID>
           <PackURL>http://www.keil.com/pack</PackURL>
           <Cpu>IRAM(0x20000000,0x18000) IROM(0x08000000,0x40000) CPUTYPE("Cortex-M3") CLOCK(12000000) ELITTLE</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
@@ -678,6 +683,8 @@
             <hadXRAM>0</hadXRAM>
             <uocXRam>0</uocXRam>
             <RvdsVP>0</RvdsVP>
+            <RvdsMve>0</RvdsMve>
+            <RvdsCdeCp>0</RvdsCdeCp>
             <hadIRAM2>0</hadIRAM2>
             <hadIROM2>0</hadIROM2>
             <StupSel>8</StupSel>
@@ -805,7 +812,7 @@
           </ArmAdsMisc>
           <Cads>
             <interw>1</interw>
-            <Optim>1</Optim>
+            <Optim>4</Optim>
             <oTime>0</oTime>
             <SplitLS>0</SplitLS>
             <OneElfS>1</OneElfS>
@@ -818,6 +825,7 @@
             <uThumb>0</uThumb>
             <uSurpInc>0</uSurpInc>
             <uC99>0</uC99>
+            <uGnu>0</uGnu>
             <useXO>0</useXO>
             <v6Lang>0</v6Lang>
             <v6LangP>0</v6LangP>
@@ -843,7 +851,7 @@
             <NoWarn>0</NoWarn>
             <uSurpInc>0</uSurpInc>
             <useXO>0</useXO>
-            <uClangAs>0</uClangAs>
+            <ClangAsOpt>4</ClangAsOpt>
             <VariousControls>
               <MiscControls></MiscControls>
               <Define></Define>
@@ -1001,11 +1009,12 @@
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
       <pCCUsed>5060422::V5.06 update 4 (build 422)::ARMCC</pCCUsed>
+      <uAC6>8</uAC6>
       <TargetOption>
         <TargetCommonOption>
           <Device>STM32F205VC</Device>
           <Vendor>STMicroelectronics</Vendor>
-          <PackID>Keil.STM32F2xx_DFP.2.6.0</PackID>
+          <PackID>Keil.STM32F2xx_DFP.2.9.0</PackID>
           <PackURL>http://www.keil.com/pack</PackURL>
           <Cpu>IRAM(0x20000000,0x18000) IROM(0x08000000,0x40000) CPUTYPE("Cortex-M3") CLOCK(12000000) ELITTLE</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
@@ -1173,6 +1182,8 @@
             <hadXRAM>0</hadXRAM>
             <uocXRam>0</uocXRam>
             <RvdsVP>0</RvdsVP>
+            <RvdsMve>0</RvdsMve>
+            <RvdsCdeCp>0</RvdsCdeCp>
             <hadIRAM2>0</hadIRAM2>
             <hadIROM2>0</hadIROM2>
             <StupSel>8</StupSel>
@@ -1313,6 +1324,7 @@
             <uThumb>0</uThumb>
             <uSurpInc>0</uSurpInc>
             <uC99>0</uC99>
+            <uGnu>0</uGnu>
             <useXO>0</useXO>
             <v6Lang>0</v6Lang>
             <v6LangP>0</v6LangP>
@@ -1338,7 +1350,7 @@
             <NoWarn>0</NoWarn>
             <uSurpInc>0</uSurpInc>
             <useXO>0</useXO>
-            <uClangAs>0</uClangAs>
+            <ClangAsOpt>4</ClangAsOpt>
             <VariousControls>
               <MiscControls></MiscControls>
               <Define></Define>
@@ -1496,11 +1508,12 @@
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
       <pCCUsed>5060422::V5.06 update 4 (build 422)::ARMCC</pCCUsed>
+      <uAC6>8</uAC6>
       <TargetOption>
         <TargetCommonOption>
           <Device>STM32F205VGTx</Device>
           <Vendor>STMicroelectronics</Vendor>
-          <PackID>Keil.STM32F2xx_DFP.2.6.0</PackID>
+          <PackID>Keil.STM32F2xx_DFP.2.9.0</PackID>
           <PackURL>http://www.keil.com/pack</PackURL>
           <Cpu>IRAM(0x20000000,0x20000) IROM(0x08000000,0x100000) CPUTYPE("Cortex-M3") CLOCK(12000000) ELITTLE</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
@@ -1668,6 +1681,8 @@
             <hadXRAM>0</hadXRAM>
             <uocXRam>0</uocXRam>
             <RvdsVP>0</RvdsVP>
+            <RvdsMve>0</RvdsMve>
+            <RvdsCdeCp>0</RvdsCdeCp>
             <hadIRAM2>0</hadIRAM2>
             <hadIROM2>0</hadIROM2>
             <StupSel>8</StupSel>
@@ -1808,6 +1823,7 @@
             <uThumb>0</uThumb>
             <uSurpInc>0</uSurpInc>
             <uC99>0</uC99>
+            <uGnu>0</uGnu>
             <useXO>0</useXO>
             <v6Lang>0</v6Lang>
             <v6LangP>0</v6LangP>
@@ -1833,7 +1849,7 @@
             <NoWarn>0</NoWarn>
             <uSurpInc>0</uSurpInc>
             <useXO>0</useXO>
-            <uClangAs>0</uClangAs>
+            <ClangAsOpt>4</ClangAsOpt>
             <VariousControls>
               <MiscControls></MiscControls>
               <Define></Define>
@@ -2016,6 +2032,7 @@
                 <uThumb>2</uThumb>
                 <uSurpInc>2</uSurpInc>
                 <uC99>2</uC99>
+                <uGnu>2</uGnu>
                 <useXO>2</useXO>
                 <v6Lang>0</v6Lang>
                 <v6LangP>0</v6LangP>
@@ -2041,7 +2058,7 @@
                 <NoWarn>2</NoWarn>
                 <uSurpInc>2</uSurpInc>
                 <useXO>2</useXO>
-                <uClangAs>2</uClangAs>
+                <ClangAsOpt>0</ClangAsOpt>
                 <VariousControls>
                   <MiscControls></MiscControls>
                   <Define></Define>
@@ -2059,12 +2076,13 @@
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
       <pCCUsed>5060422::V5.06 update 4 (build 422)::ARMCC</pCCUsed>
+      <uAC6>0</uAC6>
       <TargetOption>
         <TargetCommonOption>
           <Device>STM32F405VGTx</Device>
           <Vendor>STMicroelectronics</Vendor>
-          <PackID>Keil.STM32F4xx_DFP.2.9.0</PackID>
-          <PackURL>http://www.keil.com/pack</PackURL>
+          <PackID>Keil.STM32F4xx_DFP.2.14.0</PackID>
+          <PackURL>http://www.keil.com/pack/</PackURL>
           <Cpu>IRAM(0x20000000,0x20000) IRAM2(0x10000000,0x10000) IROM(0x08000000,0x100000) CPUTYPE("Cortex-M4") FPU2 CLOCK(12000000) ELITTLE</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
           <StartupFile></StartupFile>
@@ -2231,6 +2249,8 @@
             <hadXRAM>0</hadXRAM>
             <uocXRam>0</uocXRam>
             <RvdsVP>1</RvdsVP>
+            <RvdsMve>0</RvdsMve>
+            <RvdsCdeCp>0</RvdsCdeCp>
             <hadIRAM2>1</hadIRAM2>
             <hadIROM2>0</hadIROM2>
             <StupSel>8</StupSel>
@@ -2371,6 +2391,7 @@
             <uThumb>0</uThumb>
             <uSurpInc>0</uSurpInc>
             <uC99>0</uC99>
+            <uGnu>0</uGnu>
             <useXO>0</useXO>
             <v6Lang>0</v6Lang>
             <v6LangP>0</v6LangP>
@@ -2396,7 +2417,7 @@
             <NoWarn>0</NoWarn>
             <uSurpInc>0</uSurpInc>
             <useXO>0</useXO>
-            <uClangAs>0</uClangAs>
+            <ClangAsOpt>4</ClangAsOpt>
             <VariousControls>
               <MiscControls></MiscControls>
               <Define></Define>
@@ -2554,12 +2575,13 @@
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
       <pCCUsed>5060422::V5.06 update 4 (build 422)::ARMCC</pCCUsed>
+      <uAC6>8</uAC6>
       <TargetOption>
         <TargetCommonOption>
           <Device>STM32F405VGTx</Device>
           <Vendor>STMicroelectronics</Vendor>
-          <PackID>Keil.STM32F4xx_DFP.2.9.0</PackID>
-          <PackURL>http://www.keil.com/pack</PackURL>
+          <PackID>Keil.STM32F4xx_DFP.2.14.0</PackID>
+          <PackURL>http://www.keil.com/pack/</PackURL>
           <Cpu>IRAM(0x20000000,0x20000) IRAM2(0x10000000,0x10000) IROM(0x08000000,0x100000) CPUTYPE("Cortex-M4") FPU2 CLOCK(12000000) ELITTLE</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
           <StartupFile></StartupFile>
@@ -2726,6 +2748,8 @@
             <hadXRAM>0</hadXRAM>
             <uocXRam>0</uocXRam>
             <RvdsVP>1</RvdsVP>
+            <RvdsMve>0</RvdsMve>
+            <RvdsCdeCp>0</RvdsCdeCp>
             <hadIRAM2>1</hadIRAM2>
             <hadIROM2>0</hadIROM2>
             <StupSel>8</StupSel>
@@ -2866,6 +2890,7 @@
             <uThumb>0</uThumb>
             <uSurpInc>0</uSurpInc>
             <uC99>0</uC99>
+            <uGnu>0</uGnu>
             <useXO>0</useXO>
             <v6Lang>0</v6Lang>
             <v6LangP>0</v6LangP>
@@ -2891,7 +2916,7 @@
             <NoWarn>0</NoWarn>
             <uSurpInc>0</uSurpInc>
             <useXO>0</useXO>
-            <uClangAs>0</uClangAs>
+            <ClangAsOpt>4</ClangAsOpt>
             <VariousControls>
               <MiscControls></MiscControls>
               <Define></Define>
@@ -3063,5 +3088,20 @@
     </components>
     <files/>
   </RTE>
+
+  <LayerInfo>
+    <Layers>
+      <Layer>
+        <LayName>&lt;Project Info&gt;</LayName>
+        <LayDesc></LayDesc>
+        <LayUrl></LayUrl>
+        <LayKeys></LayKeys>
+        <LayCat></LayCat>
+        <LayLic></LayLic>
+        <LayTarg>0</LayTarg>
+        <LayPrjMark>1</LayPrjMark>
+      </Layer>
+    </Layers>
+  </LayerInfo>
 
 </Project>

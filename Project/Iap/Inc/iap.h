@@ -1,10 +1,10 @@
 
 #include		"stm32f2xx.h"
 
-#define 		SW_version					110		
+#define 		SW_version					120		
 
-#define			__CAN__						CAN2
-#define			__FILTER_BASE__		14
+#define			__CAN__							CAN2
+#define			__FILTER_BASE__			14
 
 #define			_PAGE_SIZE					FLASH_Sector_1
 #define			_SIGN_PAGE					FLASH_Sector_1

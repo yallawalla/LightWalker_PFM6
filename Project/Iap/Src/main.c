@@ -610,24 +610,44 @@ void 				SysTick_Handler(void) {
 void				FileHexProg(void) {
 FATFS	fs;
 FIL		f;
-int		i;
+int		i,j,a;
 char	s[128];
 
-						if(f_mount(0,&fs)==FR_OK && f_open(&f,"Pfm6Ctrl.hex",FA_READ)==FR_OK) {
-							for(i=0; i<5; ++i) {
-								Watchdog();
-								FlashErase(_SIGN_PAGE+i*_PAGE_SIZE);
+						if(f_mount(0,&fs)==FR_OK) {
+							if(f_open(&f,"Pfm6Ctrl.hex",FA_READ)==FR_OK || f_open(&f,"Pfm8Ctrl.hex",FA_READ)==FR_OK) {
+								for(i=0; i<5; ++i) {
+									Watchdog();
+									FlashErase(_SIGN_PAGE+i*_PAGE_SIZE);
+								}
+								while(!f_eof(&f)) {
+									Watchdog();
+									f_gets(s,128,&f);
+									strncpy(_Iap_string,&s[1],63);
+									CanHexProg(NULL);
+								}
+								crcSIGN(0);
+								f_close(&f);
 							}
-							while(!f_eof(&f)) {
-								Watchdog();
-								f_gets(s,128,&f);
-								strncpy(_Iap_string,&s[1],63);
-								CanHexProg(NULL);
+							if(f_open(&f,"Pfm6Ctrl.bin",FA_READ)==FR_OK || f_open(&f,"Pfm8Ctrl.bin",FA_READ)==FR_OK) {
+								for(i=0; i<5; ++i) {
+									Watchdog();
+									FlashErase(_SIGN_PAGE+i*_PAGE_SIZE);
+								}
+								a=_FLASH_TOP;
+								while(!f_eof(&f)) {
+									Watchdog();
+									if(f_read(&f, &i, sizeof(int), (UINT *)&j) != FR_OK)
+										return;
+									FlashProgram32(a,i);
+									a+=sizeof(int);
+								}
+								_Words32Received=(a-_FLASH_TOP)/sizeof(int);
+								_minAddress=_FLASH_TOP;
+								crcSIGN(0);
+								f_close(&f);
 							}
-							crcSIGN(0);
-						}
-						f_close(&f);
 						f_mount(0,NULL);
+					}
 }
 /**
 * @}
