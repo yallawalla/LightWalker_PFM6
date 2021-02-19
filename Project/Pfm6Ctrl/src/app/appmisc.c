@@ -124,9 +124,9 @@ int 	LW_SpecOps(PFM *p, burst *mirr) {
 				p->Burst.Length=mirr->Length*10;
 				
 				if(p->Burst.Length > 50) {
-					p->Burst.swmin=p->Burst.Length-50;
-					p->Burst.swmax=p->Burst.Length+50;
-					p->Burst.swn=10;
+					p->Burst.swmin=p->Burst.Length-80;
+					p->Burst.swmax=p->Burst.Length+80;
+					p->Burst.swn=16;
 					p->Burst.Length=0;
 				} else {
 					pfm->Burst.swmax=550;
