@@ -118,22 +118,22 @@ int 	LW_SpecOps(PFM *p, burst *mirr) {
 				p->Burst.Repeat=mirr->Repeat;
 				return -1;
 			}
-// ___ I-4421______________________________________________________________________________________________________
+// ___ I-4421____sweeps parser_____________________________________________________________________________________
 			if(mirr->Time == 50 && mirr->N == 2 && mirr->Ptype == _SHPMOD_MAIN) {
 				p->Burst.Ptype |= _SHPMOD_SWEEPS;
 				p->Burst.Length=mirr->Length*10;
-				
 				if(p->Burst.Length > 50) {
-					p->Burst.swmin=p->Burst.Length-80;
-					p->Burst.swmax=p->Burst.Length+80;
-					p->Burst.swn=16;
-					p->Burst.Length=0;
+//____ I-10652 ___swn iz CAN parserja !!!__________________________________________________________________________
+					if(p->Burst.swn < 2)
+						p->Burst.swn = 2;
+					p->Burst.swmin=p->Burst.Length-10*(p->Burst.swn/2);
+					p->Burst.swmax=p->Burst.Length+10*(p->Burst.swn/2);
 				} else {
 					pfm->Burst.swmax=550;
 					pfm->Burst.swmin=250;
-					pfm->Burst.swn=30;				// back to defaults :)
+					pfm->Burst.swn=30;				// back to defaults, autosweeps :)
 				}
-					
+				p->Burst.Length=0;
 				p->Burst.Time=mirr->Time;
 				p->Burst.N=mirr->N;
 				p->Burst.Repeat=mirr->Repeat;

@@ -506,6 +506,12 @@ static burst bmirror;
 										p->Burst.U = bmirror.U = *(short *)q++;q++;
 										p->Burst.Time = bmirror.Time = *(short *)q++;q++;
 										p->Burst.Ptype = bmirror.Ptype = (ptype)(*q++);
+//________________ I-10652 __________________________________________________________________________________
+										if(Can.rx.DLC == 7)
+											p->Burst.swn = *(unsigned char *)q++;
+										else
+											p->Burst.swn=50;
+//___________________________________________________________________________________________________________											
 										if(LW_SpecOps(p,&bmirror)) {
 											p->Burst.Pmax = __max(0,__min(_PWM_RATE_HI, (p->Burst.U *_PWM_RATE_HI)/_AD2HV(10*p->Burst.HVo)));
 											if(p->Burst.Pmax > 0 && p->Burst.Pmax < _PWM_RATE_HI) {
